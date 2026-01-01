@@ -109,8 +109,9 @@ lib/
  │    ├── profile/
  ├── shared/
  └── main.dart
-
 ---
+---
+
 ## ⚙️ Installation & Setup
 1/ Clone the repository
 git clone https://github.com/your-username/ecommerce-flutter-app.git
