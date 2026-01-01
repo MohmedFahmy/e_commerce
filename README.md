@@ -1,16 +1,131 @@
-# e_commerce
+# 🛒 E-Commerce Mobile Application (Flutter & Supabase)
 
-A new Flutter project.
+A modern and fully-featured **E-Commerce mobile application** built using **Flutter** and **Supabase**, designed to deliver a smooth, secure, and scalable shopping experience with clean UI/UX and production-ready architecture.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📌 Project Overview
+This project is a complete mobile e-commerce solution that allows users to browse products, search and filter items, manage favorites, handle authentication, and manage their profile securely.  
+The backend is powered by **Supabase**, providing authentication, database, and storage services.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🚀 Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔐 Authentication & Security
+- User Registration (Sign Up)
+- User Login (Sign In)
+- Secure Logout
+- Change Password
+- Reset Password
+- Authentication powered by Supabase
+- Secure user sessions and protected routes
+
+---
+
+### 🛍️ Products
+- View all available products
+- Category-based browsing
+- Product details with images, price, and description
+- Data stored and fetched from Supabase PostgreSQL
+
+---
+
+### 🔍 Search & Filtering
+- Search products by name
+- Filter products by:
+  - Category
+  - Price range
+  - Availability
+- Optimized filtering logic for better performance
+
+---
+
+### ❤️ Favorites / Wishlist
+- Add products to favorites
+- Remove products from favorites
+- Wishlist linked to the user account
+- Persistent data storage
+
+---
+
+### 🛒 Cart (Expandable)
+- Add products to cart
+- Update product quantities
+- Ready for checkout and payment integration
+
+---
+
+### 👤 Profile Management
+- View user profile information
+- Update profile data
+- Change account password securely
+- User data managed using Supabase Database
+
+---
+
+## 🧩 Technologies Used
+- **Flutter** – Cross-platform mobile development
+- **Supabase**
+  - Authentication
+  - PostgreSQL Database
+  - Storage (Images)
+- **RESTful APIs**
+- **Clean Architecture**
+- **State Management** (Bloc / Cubit / Provider)
+
+---
+
+## 🔐 Security & Performance
+- Secure authentication flow
+- Row Level Security (RLS)
+- Optimized API calls
+- Scalable and maintainable architecture
+
+---
+
+## 🖼️ Screenshots
+> *(Add your application screenshots here)*
+
+| Screen | Preview |
+|------|--------|
+| Home Screen | ![Home](screenshots/home.png) |
+| Product Details | ![Details](screenshots/details.png) |
+| Search & Filters | ![Search](screenshots/search.png) |
+| Authentication | ![Auth](screenshots/auth.png) |
+| Profile | ![Profile](screenshots/profile.png) |
+
+---
+
+## 📂 Project Structure
+```text
+lib/
+ ├── core/
+ ├── features/
+ │    ├── auth/
+ │    ├── home/
+ │    ├── products/
+ │    ├── cart/
+ │    ├── profile/
+ ├── shared/
+ └── main.dart
+
+---
+## ⚙️ Installation & Setup
+1/ Clone the repository
+git clone https://github.com/your-username/ecommerce-flutter-app.git
+
+2/ Install dependencies
+flutter pub get
+
+- Supabase Configuration
+- Create a Supabase project
+- Enable Authentication and Database
+- Add your credentials:
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+
+3/ Run the application
+flutter run
+
+
