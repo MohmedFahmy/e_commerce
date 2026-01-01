@@ -114,7 +114,7 @@ lib/
 
 ## ⚙️ Installation & Setup
 1/ Clone the repository
-git clone https://github.com/your-username/ecommerce-flutter-app.git
+git clone https://github.com/MohmedFahmy/e_commerce.git
 
 2/ Install dependencies
 flutter pub get
