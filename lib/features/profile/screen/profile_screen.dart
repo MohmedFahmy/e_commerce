@@ -15,95 +15,98 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is SignOutSuccess) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-          );
-        }
-        if (state is LoginError) {
-          CustomErrorMessage(context, state.message);
-        }
-      },
-      builder: (context, state) {
-        UserDataModel? cubit2 = context.read<AuthCubit>().userDataModel;
-        return state is SignOutLoading
-            ? Center(child: CircularProgressIndicator())
-            : Center(
-              child: SizedBox(
-                height: MediaQuery.sizeOf(context).height * .7,
-                child: Card(
-                  margin: const EdgeInsets.all(16),
-                  color: AppColors.kWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: AppColors.kPrimaryColor,
-                          foregroundColor: AppColors.kWhiteColor,
-                          child: Icon(Icons.person, size: 50),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          cubit2?.name ?? 'User Name',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+    return BlocProvider(
+      create: (context) => AuthCubit()..getUserData(),
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is SignOutSuccess) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          }
+          if (state is LoginError) {
+            CustomErrorMessage(context, state.message);
+          }
+        },
+        builder: (context, state) {
+          UserDataModel? userData = context.read<AuthCubit>().userDataModel;
+          return state is SignOutLoading || state is GetUserDataLoading
+              ? Center(child: CircularProgressIndicator())
+              : Center(
+                child: SizedBox(
+                  height: MediaQuery.sizeOf(context).height * .7,
+                  child: Card(
+                    margin: const EdgeInsets.all(16),
+                    color: AppColors.kWhiteColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: AppColors.kPrimaryColor,
+                            foregroundColor: AppColors.kWhiteColor,
+                            child: Icon(Icons.person, size: 50),
                           ),
-                        ),
-                        SizedBox(height: 15),
-                        Text(
-                          cubit2?.email ?? 'User Email',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 40),
-                        CustomRowButtom(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NameEditScreen(),
-                              ),
-                            );
-                          },
-                          icon: Icons.person,
-                          text: 'Edit Name',
-                        ),
-                        SizedBox(height: 15),
-                        CustomRowButtom(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OrdersScreen(),
-                              ),
-                            );
-                          },
-                          icon: Icons.shopping_basket,
-                          text: 'Your Orders',
-                        ),
-                        SizedBox(height: 15),
-                        CustomRowButtom(
-                          onTap: () async {
-                            await context.read<AuthCubit>().signOut();
-                          },
-                          icon: Icons.logout,
-                          text: 'Logout',
-                        ),
-                      ],
+                          SizedBox(height: 15),
+                          Text(
+                            userData?.name ?? 'User Name',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            userData?.email ?? 'User Email',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 40),
+                          CustomRowButtom(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NameEditScreen(),
+                                ),
+                              );
+                            },
+                            icon: Icons.person,
+                            text: 'Edit Name',
+                          ),
+                          SizedBox(height: 15),
+                          CustomRowButtom(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OrdersScreen(),
+                                ),
+                              );
+                            },
+                            icon: Icons.shopping_basket,
+                            text: 'Your Orders',
+                          ),
+                          SizedBox(height: 15),
+                          CustomRowButtom(
+                            onTap: () async {
+                              await context.read<AuthCubit>().signOut();
+                            },
+                            icon: Icons.logout,
+                            text: 'Logout',
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-      },
+              );
+        },
+      ),
     );
   }
 }

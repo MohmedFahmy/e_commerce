@@ -18,6 +18,8 @@ class AuthCubit extends Cubit<AuthState> {
     emit(LoginLoading());
     try {
       await client.auth.signInWithPassword(password: password, email: email);
+
+      await getUserData();
       emit(LoginSuccess());
     } on AuthException catch (e) {
       log(e.toString());
@@ -37,6 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await client.auth.signUp(password: password, email: email);
       await addUserData(name: name, email: email);
+      await getUserData();
       emit(SingupSuccess());
     } on AuthException catch (e) {
       log(e.toString());
@@ -89,6 +92,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: googleUser!.email,
       );
 
+      await getUserData();
       emit(GoogleSignInSuccess());
 
       return response;
