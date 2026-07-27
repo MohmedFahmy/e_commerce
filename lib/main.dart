@@ -11,9 +11,9 @@ import 'core/my_observer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: 'Enter your Supabase URL here',
+    url: 'https://hearreniancdwwyhlnca.supabase.co',
     anonKey:
-        'enter your Supabase Anon Key here',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlYXJyZW5pYW5jZHd3eWhsbmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyMTc2NzMsImV4cCI6MjA4Mjc5MzY3M30.i6iueU2bqdKnpEBUJGzzZs4zMpS8pM23kRlmUfWCdAw',
   );
   Bloc.observer = MyObserver();
   runApp(const MyApp());
