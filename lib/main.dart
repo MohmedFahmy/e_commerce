@@ -4,16 +4,17 @@ import 'package:ecommerce_app/features/auth/view/screen/login_screen.dart';
 import 'package:ecommerce_app/features/nav_bar/view/screen/main_hom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/my_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   await Supabase.initialize(
-    url: 'https://hearreniancdwwyhlnca.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlYXJyZW5pYW5jZHd3eWhsbmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyMTc2NzMsImV4cCI6MjA4Mjc5MzY3M30.i6iueU2bqdKnpEBUJGzzZs4zMpS8pM23kRlmUfWCdAw',
+    url: dotenv.get('DATABASEURL'),
+    anonKey: dotenv.get('ANONKEY'),
   );
   Bloc.observer = MyObserver();
   runApp(const MyApp());
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       create: (context) => AuthCubit()..getUserData(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+
         title: 'Flutter Demo',
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.kScaffoldColor,
