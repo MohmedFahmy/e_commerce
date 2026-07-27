@@ -51,11 +51,13 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<AuthResponse> googleSignIn() async {
     emit(GoogleSignInLoading());
-    await dotenv.load(fileName: '.env');
-    final webClientId = dotenv.get('GOOGLE_CLIENT_ID');
 
     try {
-      // Get the GoogleSignIn singleton instance
+      await dotenv.load(fileName: '.env');
+
+      final String webClientId = dotenv.get('GOOGLE_CLIENT_ID');
+
+      // Get Google Sign-In singleton instance
       final GoogleSignIn googleSignIn = GoogleSignIn.instance;
 
       // Initialize Google Sign-In
@@ -70,9 +72,10 @@ class AuthCubit extends Cubit<AuthState> {
       // Get ID Token
       final String? idToken = googleAuth.idToken;
 
-      // Check if ID Token is available
+      // Check ID Token
       if (idToken == null) {
         emit(GoogleSignInError('ID token is null.'));
+
         return AuthResponse();
       }
 
@@ -89,8 +92,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GoogleSignInSuccess());
 
       return response;
-    } catch (e) {
-      log('Google Sign-In Error: $e');
+    } catch (e, stackTrace) {
+      log('Google Sign-In Error: $e', stackTrace: stackTrace);
 
       emit(GoogleSignInError(e.toString()));
 
@@ -125,15 +128,25 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
   }) async {
     emit(UserDataAddedLoading());
+
     try {
-      await client.from('users').upsert({
-        'id': client.auth.currentUser!.id,
+      final currentUser = client.auth.currentUser;
+
+      if (currentUser == null) {
+        emit(UserDataAddedError());
+        return;
+      }
+
+      await client.from('user').upsert({
+        'id': currentUser.id,
         'name': name,
         'email': email,
-      });
+      }, onConflict: 'id');
+
       emit(UserDataAddedSuccess());
-    } catch (e) {
-      log(e.toString());
+    } catch (e, stackTrace) {
+      log('Add User Data Error: $e', stackTrace: stackTrace);
+
       emit(UserDataAddedError());
     }
   }
@@ -143,7 +156,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(GetUserDataLoading());
     try {
       final data = await client
-          .from('users')
+          .from('user')
           .select()
           .eq('id', client.auth.currentUser!.id);
       log(data.toString());
