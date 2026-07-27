@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onTap: () {
                                       cubit.googleSignIn();
                                     },
-                                    icon: Icon(
+                                    icon: FaIcon(
                                       FontAwesomeIcons.google,
                                       color: Colors.teal,
                                     ),

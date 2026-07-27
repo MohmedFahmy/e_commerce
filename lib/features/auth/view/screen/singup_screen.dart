@@ -120,7 +120,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                                             .read<AuthCubit>()
                                             .googleSignIn();
                                       },
-                                      icon: Icon(
+                                      icon: FaIcon(
                                         FontAwesomeIcons.google,
                                         color: Colors.teal,
                                       ),

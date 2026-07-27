@@ -20,16 +20,21 @@ class MyObserver implements BlocObserver {
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    // TODO: implement onError
+    log('Error: $error');
   }
 
   @override
   void onEvent(Bloc bloc, Object? event) {
-    // TODO: implement onEvent
+    log('Event: $event');
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    // TODO: implement onTransition
+    log('Transition: $transition');
+  }
+
+  @override
+  void onDone(Bloc bloc, Object? event, Object? error, StackTrace? stackTrace) {
+    log('Done: $event');
   }
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app/features/auth/model/user_data.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -47,40 +48,54 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   GoogleSignInAccount? googleUser;
+
   Future<AuthResponse> googleSignIn() async {
     emit(GoogleSignInLoading());
-    const webClientId =
-        '489201623830-oudcmv0b8u0621tnpsts2dvnpsgtn6d4.apps.googleusercontent.com';
+    await dotenv.load(fileName: '.env');
+    final webClientId = dotenv.get('GOOGLE_CLIENT_ID');
 
-    /// const androidClientId = 'my-android.apps.googleusercontent.com';
+    try {
+      // Get the GoogleSignIn singleton instance
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
 
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-      // clientId: androidClientId,
-      serverClientId: webClientId,
-    );
+      // Initialize Google Sign-In
+      await googleSignIn.initialize(serverClientId: webClientId);
 
-    googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
+      // Authenticate with Google
+      googleUser = await googleSignIn.authenticate();
+
+      // Get Google authentication data
+      final GoogleSignInAuthentication googleAuth = googleUser!.authentication;
+
+      // Get ID Token
+      final String? idToken = googleAuth.idToken;
+
+      // Check if ID Token is available
+      if (idToken == null) {
+        emit(GoogleSignInError('ID token is null.'));
+        return AuthResponse();
+      }
+
+      // Sign in to Supabase using Google ID Token
+      final AuthResponse response = await Supabase.instance.client.auth
+          .signInWithIdToken(provider: OAuthProvider.google, idToken: idToken);
+
+      // Add user data to your database
+      await addUserData(
+        name: googleUser!.displayName ?? '',
+        email: googleUser!.email,
+      );
+
+      emit(GoogleSignInSuccess());
+
+      return response;
+    } catch (e) {
+      log('Google Sign-In Error: $e');
+
+      emit(GoogleSignInError(e.toString()));
+
       return AuthResponse();
     }
-    final googleAuth = await googleUser!.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    if (accessToken == null || idToken == null) {
-      emit(GoogleSignInError('Access token or ID token is null.'));
-      return AuthResponse();
-    }
-
-    AuthResponse response = await Supabase.instance.client.auth
-        .signInWithIdToken(
-          provider: OAuthProvider.google,
-          idToken: idToken,
-          accessToken: accessToken,
-        );
-    await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
-    emit(GoogleSignInSuccess());
-    return response;
   }
 
   Future<void> signOut() async {
