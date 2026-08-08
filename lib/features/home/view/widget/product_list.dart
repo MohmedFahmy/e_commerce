@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/app_colors.dart';
+import '../../../../core/product_model/product_model.dart';
 import '../../../../core/widget/cached_image.dart';
 import '../../../product_details/view/screen/product_details_screen.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+class ProductList extends StatelessWidget {
+  const ProductList({super.key, required this.product});
+
+  final ProductModel product;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: CustomCachedImage(
                     image:
-                        "https://img.freepik.com/premium-psd/3d-rendering-minimalist-interior-background-podium-product-display_285867-425.jpg?w=826",
+                        product.imageUrl ?? "https://img.freepik.com/premium-psd/3d-rendering-minimalist-interior-background-podium-product-display_285867-425.jpg?w=826",
                   ),
                 ),
                 Positioned(
@@ -45,7 +49,7 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      '10% OFF',
+                      '${product.sale} %',
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),
@@ -59,7 +63,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Product Name',
+                   '${product.productName}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
@@ -78,14 +82,14 @@ class ProductCard extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        '90 LE',
+                        '${product.price} LE',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '100 LE',
+                        '${product.oldPrice} LE',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,

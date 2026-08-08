@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/core/function/custom_appbar.dart';
-import 'package:ecommerce_app/features/home/view/widget/product_card.dart';
+import 'package:ecommerce_app/core/widget/product_card.dart';
 import 'package:flutter/material.dart';
 
 class OrdersScreen extends StatelessWidget {

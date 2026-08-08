@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../home/view/widget/product_card.dart';
+import '../../../../core/widget/product_card.dart';
 import '../../../home/view/widget/search_text_field.dart';
 
 class StoreScreen extends StatelessWidget {

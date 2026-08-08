@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/product_model/product_model.dart';
 import '../widget/category_list.dart';
-import '../widget/product_card.dart';
+import '../widget/product_list.dart';
 import '../widget/search_text_field.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return ProductCard();
+                        return ProductList(product: products[index]);
                       },
                       itemCount: products.length,
                     );
